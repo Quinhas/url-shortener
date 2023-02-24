@@ -35,4 +35,12 @@ export class Url {
   public get userId(): string {
     return this.props.userId;
   }
+
+  public get createdAt(): Date {
+    return this.props.createdAt;
+  }
+
+  public get expiresAt(): Date {
+    return this.props.expiresAt;
+  }
 }

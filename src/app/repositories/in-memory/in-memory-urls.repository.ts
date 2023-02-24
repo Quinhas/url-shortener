@@ -14,7 +14,7 @@ export class InMemoryUrlsRepository implements UrlsRepository {
     return item;
   }
 
-  async create(url: Url): Promise<void> {
+  async store(url: Url): Promise<void> {
     this.items.push(url);
   }
 }
