@@ -11,6 +11,29 @@
     "typeRoots": [
       "./node_modules/@types",
       "./src/@types"
-    ]
+    ],
+    "paths": {
+      "@app/*": [
+        "./src/app/*"
+      ],
+      "@helpers/*": [
+        "./src/helpers/*"
+      ],
+      "@exceptions/*": [
+        "./src/exceptions/*"
+      ],
+      "@mappers/*": [
+        "./src/mappers/*"
+      ],
+      "@http/*": [
+        "./src/http/*"
+      ],
+      "@tests/*": [
+        "./src/tests/*"
+      ],
+      "@database/*": [
+        "./src/database/*"
+      ]
+    }
   }
 }

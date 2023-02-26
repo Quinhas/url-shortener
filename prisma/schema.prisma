@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,22 +8,37 @@ datasource db {
 }
 
 model User {
-  id       String @db.Uuid()
-  email    String @unique @db.VarChar(320)
-  password String @db.VarChar(50)
-  Url      Url[]
+  id         String      @id(map: "pk_user") @db.Uuid
+  email      String      @unique @db.VarChar(320)
+  password   String      @db.VarChar(255)
+  exceptions Exception[]
+  urls       Url[]
 
-  @@id([id], map: "pk_user")
+  @@map("users")
 }
 
 model Url {
-  id        String   @db.VarChar(6)
-  url       String   @unique @db.Text
-  userId    String   @db.Uuid
-  createdAt DateTime @default(now()) @db.Timestamp(6)
-  expiresAt DateTime @db.Timestamp(6)
+  id        String   @id(map: "pk_url") @db.VarChar(6)
+  url       String   @unique
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+  expiresAt DateTime @map("expires_at") @db.Timestamp(6)
+  userId    String   @map("user_id") @db.Uuid
+  user      User     @relation(fields: [userId], references: [id], map: "fk_url_user")
 
-  User User @relation(fields: [userId], references: [id], map: "fk_url_user")
+  @@map("urls")
+}
 
-  @@id([id], map: "pk_url")
+model Exception {
+  id        String   @id(map: "pk_exception") @db.Uuid
+  exception String
+  url       String   @db.VarChar(255)
+  headers   Json?
+  body      Json?
+  method    String   @db.VarChar(5)
+  query     Json?
+  dateTime  DateTime @map("date_time") @db.Timestamp(6)
+  userId    String?  @map("user_id") @db.Uuid
+  user      User?    @relation(fields: [userId], references: [id], map: "fk_exception_user")
+
+  @@map("exceptions")
 }

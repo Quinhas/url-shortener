@@ -26,6 +26,10 @@ export class User {
     this.props.email = email;
   }
 
+  get password(): string {
+    return this.props.password;
+  }
+
   set password(password: string) {
     this.props.password = password;
   }

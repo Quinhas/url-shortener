@@ -1,3 +1,4 @@
+import { ApplicationException, HttpCode } from '@exceptions/application-exception';
 import { Url } from 'src/app/entities/url';
 import { UrlsRepository } from 'src/app/repositories/urls.repository';
 
@@ -16,7 +17,10 @@ export class GetUrlById {
     const url = await this.urlsRepository.findById(id);
 
     if (!url) {
-      throw new Error('URL not found.');
+      throw new ApplicationException({
+        message: 'URL not found.',
+        statusCode: HttpCode.NOT_FOUND,
+      });
     }
 
     return { url };

@@ -1,3 +1,8 @@
+import {
+  ApplicationException,
+  HttpCode
+} from '@exceptions/application-exception';
+import { compare } from 'bcrypt';
 import { User } from 'src/app/entities/user';
 import { UsersRepository } from 'src/app/repositories/users.repository';
 
@@ -17,11 +22,18 @@ export class Login {
     const user = await this.usersRepository.findByEmail(email);
 
     if (!user) {
-      throw new Error('User not found.');
+      throw new ApplicationException({
+        message: 'User not found.',
+        statusCode: HttpCode.NOT_FOUND,
+      });
     }
 
-    if (!user.comparePassword(password)) {
-      throw new Error('Invalid password.');
+    const matchPassword = await compare(password, user.password);
+    if (!matchPassword) {
+      throw new ApplicationException({
+        message: 'Invalid password.',
+        statusCode: HttpCode.BAD_REQUEST,
+      });
     }
 
     return { user };
