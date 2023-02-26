@@ -1,5 +1,5 @@
-import { Url } from 'src/app/entities/url';
-import { InMemoryUrlsRepository } from 'src/app/repositories/in-memory/in-memory-urls.repository';
+import { Url } from '@app/entities/url';
+import { InMemoryUrlsRepository } from '@tests/repositories/in-memory/in-memory-urls.repository';
 import { describe, expect, it } from 'vitest';
 import { CreateUrl } from './create-url';
 

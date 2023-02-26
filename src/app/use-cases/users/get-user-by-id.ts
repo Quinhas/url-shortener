@@ -1,3 +1,7 @@
+import {
+  ApplicationException,
+  HttpCode
+} from '@exceptions/application-exception';
 import { User } from 'src/app/entities/user';
 import { UsersRepository } from 'src/app/repositories/users.repository';
 
@@ -16,7 +20,10 @@ export class GetUserById {
     const user = await this.usersRepository.findById(id);
 
     if (!user) {
-      throw new Error('User not found.');
+      throw new ApplicationException({
+        message: 'User not found.',
+        statusCode: HttpCode.NOT_FOUND,
+      });
     }
 
     return { user };

@@ -22,7 +22,7 @@ export class CreateUrl {
       url: originalUrl,
     });
 
-    await this.urlsRepository.create(url);
+    await this.urlsRepository.store(url);
 
     return { url };
   }
