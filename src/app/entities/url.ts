@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { nanoid } from 'nanoid';
 
-interface UrlProps {
+export interface UrlProps {
   url: string;
   userId: string;
   createdAt: Date;

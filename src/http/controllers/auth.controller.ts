@@ -4,7 +4,6 @@ import { prismaUsersRepository } from '@database/repositories/prisma/prisma-user
 import { Request, Response } from 'express';
 import { LoginDTO } from '../dtos/auth/login.dto';
 import { SignUpDTO } from '../dtos/auth/signup.dto';
-import { UserViewModel } from '../view-models/user.view-model';
 
 export class AuthController {
   async login(req: Request, res: Response) {
@@ -12,9 +11,9 @@ export class AuthController {
 
     const login = new Login(prismaUsersRepository);
 
-    const { user } = await login.execute({ email, password });
+    const { accessToken } = await login.execute({ email, password });
 
-    res.status(200).json(UserViewModel.toHTTP(user));
+    res.status(200).json({ access_token: accessToken });
   }
 
   async signup(req: Request, res: Response) {
@@ -22,9 +21,9 @@ export class AuthController {
 
     const signUp = new SignUp(prismaUsersRepository);
 
-    const { user } = await signUp.execute({ email, password });
+    const { accessToken } = await signUp.execute({ email, password });
 
-    res.status(201).json(UserViewModel.toHTTP(user));
+    res.status(201).json({ access_token: accessToken });
   }
 }
 

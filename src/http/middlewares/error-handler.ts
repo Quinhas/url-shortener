@@ -11,15 +11,26 @@ export const errorHandler: ErrorRequestHandler = async (
   next: NextFunction
 ) => {
   if (err instanceof ApplicationException) {
-    console.log('oi');
+    if (err?.statusCode === 500) {
+      await prismaClient.exception.create({
+        data: {
+          id: randomUUID(),
+          dateTime: dayjs().toDate(),
+          exception: String(err),
+          method: req.method,
+          url: req.path,
+          headers: req.headers ?? undefined,
+          body: req.body ?? undefined,
+          query: req.query ?? undefined,
+          userId: req.userId ?? undefined,
+        },
+      });
+      err.message = 'Unable to continue. Contact an administrator.';
+    }
     return res
       .status(err.statusCode ?? 500)
       .json({ error: { message: err.message } });
   }
-
-  console.log(err instanceof ApplicationException);
-
-  console.log(err);
 
   await prismaClient.exception.create({
     data: {

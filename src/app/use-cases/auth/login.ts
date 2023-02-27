@@ -1,9 +1,9 @@
 import {
   ApplicationException,
-  HttpCode
+  HttpCode,
 } from '@exceptions/application-exception';
+import generateAccessToken from '@helpers/generate-access-token';
 import { compare } from 'bcrypt';
-import { User } from 'src/app/entities/user';
 import { UsersRepository } from 'src/app/repositories/users.repository';
 
 interface LoginRequest {
@@ -12,7 +12,7 @@ interface LoginRequest {
 }
 
 interface LoginResponse {
-  user: User;
+  accessToken: string;
 }
 
 export class Login {
@@ -36,6 +36,11 @@ export class Login {
       });
     }
 
-    return { user };
+    const accessToken = generateAccessToken({
+      id: user.id,
+      email: user.email,
+    });
+
+    return { accessToken };
   }
 }
