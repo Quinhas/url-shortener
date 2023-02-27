@@ -1,7 +1,8 @@
 import {
   ApplicationException,
-  HttpCode
+  HttpCode,
 } from '@exceptions/application-exception';
+import generateAccessToken from '@helpers/generate-access-token';
 import { hashPassword } from '@helpers/hash-password';
 import { User } from 'src/app/entities/user';
 import { UsersRepository } from 'src/app/repositories/users.repository';
@@ -12,7 +13,7 @@ interface SignUpRequest {
 }
 
 interface SignUpResponse {
-  user: User;
+  accessToken: string;
 }
 
 export class SignUp {
@@ -37,6 +38,11 @@ export class SignUp {
 
     await this.usersRepository.store(user);
 
-    return { user };
+    const accessToken = generateAccessToken({
+      id: user.id,
+      email: user.email,
+    });
+
+    return { accessToken };
   }
 }

@@ -1,6 +1,6 @@
 import { randomUUID } from 'crypto';
 
-interface UserProps {
+export interface UserProps {
   email: string;
   password: string;
 }

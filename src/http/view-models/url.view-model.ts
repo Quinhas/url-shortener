@@ -6,8 +6,8 @@ export class UrlViewModel {
       id: url.id,
       userId: url.userId,
       url: url.originalUrl,
-      createdAt: url.createdAt,
-      expiresAt: url.expiresAt,
+      created_at: url.createdAt,
+      expires_at: url.expiresAt,
     };
   }
 }
