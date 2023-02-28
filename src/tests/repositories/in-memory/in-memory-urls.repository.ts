@@ -1,4 +1,6 @@
 import { UrlsRepository } from '@app/repositories/urls.repository';
+import { resetDateTime } from '@helpers/reset-date-time';
+import dayjs from 'dayjs';
 import { Url } from 'src/app/entities/url';
 
 export class InMemoryUrlsRepository implements UrlsRepository {
@@ -20,7 +22,11 @@ export class InMemoryUrlsRepository implements UrlsRepository {
 
   async deleteExpiredUrls(): Promise<number> {
     let count = this.items.length;
-    this.items = this.items.filter((item) => item.expiresAt >= new Date());
+    this.items = this.items.filter((item) => {
+      if (item.expiresAt >= resetDateTime(dayjs().toDate())) {
+        return item;
+      }
+    });
     count -= this.items.length;
     return count;
   }

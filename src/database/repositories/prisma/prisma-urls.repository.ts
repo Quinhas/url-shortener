@@ -1,4 +1,6 @@
 import { UrlsRepository } from '@app/repositories/urls.repository';
+import { resetDateTime } from '@helpers/reset-date-time';
+import dayjs from 'dayjs';
 import { Url } from 'src/app/entities/url';
 import { prismaClient } from 'src/database/prismaClient';
 import { PrismaUrlMapper } from 'src/mappers/prisma/prisma-url.mapper';
@@ -26,7 +28,7 @@ export class PrismaUrlsRepository implements UrlsRepository {
 
   async deleteExpiredUrls(): Promise<number> {
     const { count } = await prismaClient.url.deleteMany({
-      where: { expiresAt: { lt: new Date() } },
+      where: { expiresAt: { lt: resetDateTime(dayjs().toDate()) } },
     });
 
     return count;
