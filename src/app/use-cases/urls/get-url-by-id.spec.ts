@@ -1,4 +1,5 @@
 import { Url } from '@app/entities/url';
+import { makeUrl } from '@tests/factories/url.factory';
 import { InMemoryUrlsRepository } from '@tests/repositories/in-memory/in-memory-urls.repository';
 import { describe, expect, it } from 'vitest';
 import { CreateUrl } from './create-url';
@@ -10,16 +11,13 @@ describe('Get URL By Id', () => {
     const createUrl = new CreateUrl(urlsRepository);
     const getUrlById = new GetUrlById(urlsRepository);
 
-    const originalUrl = 'https://github.com/Quinhas/url-shortener';
+    const _url = makeUrl();
 
-    const { url: _url } = await createUrl.execute({
-      originalUrl,
-      userId: 'user-id',
-    });
+    await createUrl.execute(_url);
 
     const { url } = await getUrlById.execute({ id: _url.id });
 
     expect(url).toBeInstanceOf(Url);
-    expect(url.originalUrl).toBe(originalUrl);
+    expect(url.originalUrl).toBe(_url.originalUrl);
   });
 });

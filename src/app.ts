@@ -5,11 +5,15 @@ import { userController } from '@http/controllers/user.controller';
 import { authMiddleware } from '@http/middlewares/auth.middleware';
 import { errorHandler } from '@http/middlewares/error-handler';
 import cors from 'cors';
+import dayjs from 'dayjs';
+import ptBR from 'dayjs/locale/pt-br';
 import express from 'express';
 import cron from 'node-cron';
 
 const app = express();
 const port = process.env.PORT || 3033;
+
+dayjs.locale(ptBR);
 
 app.use(express.json());
 app.use(cors());

@@ -1,3 +1,4 @@
+import { resetDateTime } from '@helpers/reset-date-time';
 import { makeUrl } from '@tests/factories/url.factory';
 import { InMemoryUrlsRepository } from '@tests/repositories/in-memory/in-memory-urls.repository';
 import dayjs from 'dayjs';
@@ -11,16 +12,17 @@ describe('Delete Expired Urls', () => {
     const createUrl = new CreateUrl(urlsRepository);
     const deleteExpiredUrls = new DeleteExpiredUrls(urlsRepository);
 
-    const yesterday = dayjs().subtract(1, 'day').toDate();
-    const today = dayjs().toDate();
-    const tomorrow = dayjs().add(1, 'day').toDate();
+    const yesterday = resetDateTime(dayjs().subtract(1, 'day').toDate());
+    const today = resetDateTime(dayjs().toDate());
+    const tomorrow = resetDateTime(dayjs().add(1, 'day').toDate());
 
     await createUrl.execute(makeUrl({ expiresAt: yesterday }));
     await createUrl.execute(makeUrl({ expiresAt: today }));
     await createUrl.execute(makeUrl({ expiresAt: tomorrow }));
 
-    await deleteExpiredUrls.execute();
+    const { count } = await deleteExpiredUrls.execute();
 
+    expect(count).toEqual(1);
     expect(urlsRepository.items.length).toEqual(2);
     expect(urlsRepository.items).toEqual(
       expect.arrayContaining([

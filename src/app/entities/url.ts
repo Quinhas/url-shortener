@@ -1,3 +1,4 @@
+import { resetDateTime } from '@helpers/reset-date-time';
 import dayjs from 'dayjs';
 import { nanoid } from 'nanoid';
 
@@ -20,7 +21,9 @@ export class Url {
     this.props = {
       ...props,
       createdAt: dayjs().toDate(),
-      expiresAt: props.expiresAt ?? dayjs().add(1, 'month').toDate(),
+      expiresAt: resetDateTime(
+        props.expiresAt ?? dayjs().add(1, 'month').toDate()
+      ),
     };
   }
 

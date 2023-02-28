@@ -6,6 +6,7 @@ import { HttpCode } from '@exceptions/application-exception';
 import { CreateUrlDTO } from '@http/dtos/url/create-url.dto';
 import { FindUrlByIdDTO } from '@http/dtos/url/find-url-by-id.dto';
 import { UrlViewModel } from '@http/view-models/url.view-model';
+import dayjs from 'dayjs';
 import { Request, Response } from 'express';
 
 export class UrlController {
@@ -33,7 +34,12 @@ export class UrlController {
   async deleteExpiredUrls() {
     const deleteUrls = new DeleteExpiredUrls(prismaUrlsRepository);
 
-    await deleteUrls.execute();
+    const { count } = await deleteUrls.execute();
+    console.log(
+      `[delete-expired-urls] ${dayjs().format(
+        'DD/MM/YYYY - HH:mm:ss'
+      )} - ${count} expired urls deleted.`
+    );
   }
 }
 
