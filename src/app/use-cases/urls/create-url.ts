@@ -4,6 +4,7 @@ import { UrlsRepository } from 'src/app/repositories/urls.repository';
 interface CreateUrlRequest {
   userId: string;
   originalUrl: string;
+  expiresAt?: Date;
 }
 
 interface CreateUrlResponse {
@@ -16,10 +17,12 @@ export class CreateUrl {
   async execute({
     userId,
     originalUrl,
+    expiresAt,
   }: CreateUrlRequest): Promise<CreateUrlResponse> {
     const url = new Url({
       userId,
       url: originalUrl,
+      expiresAt,
     });
 
     await this.urlsRepository.store(url);
