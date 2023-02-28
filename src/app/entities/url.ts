@@ -20,7 +20,7 @@ export class Url {
     this.props = {
       ...props,
       createdAt: dayjs().toDate(),
-      expiresAt: dayjs().add(1, 'month').toDate(),
+      expiresAt: props.expiresAt ?? dayjs().add(1, 'month').toDate(),
     };
   }
 

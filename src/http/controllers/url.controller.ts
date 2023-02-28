@@ -1,4 +1,5 @@
 import { CreateUrl } from '@app/use-cases/urls/create-url';
+import { DeleteExpiredUrls } from '@app/use-cases/urls/delete-expired-urls';
 import { GetUrlById } from '@app/use-cases/urls/get-url-by-id';
 import { prismaUrlsRepository } from '@database/repositories/prisma/prisma-urls.repository';
 import { HttpCode } from '@exceptions/application-exception';
@@ -27,6 +28,12 @@ export class UrlController {
     const { url } = await createUrl.execute({ userId, originalUrl });
 
     res.status(HttpCode.CREATED).json(UrlViewModel.toHTTP(url));
+  }
+
+  async deleteExpiredUrls() {
+    const deleteUrls = new DeleteExpiredUrls(prismaUrlsRepository);
+
+    await deleteUrls.execute();
   }
 }
 

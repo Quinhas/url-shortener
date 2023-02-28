@@ -23,6 +23,14 @@ export class PrismaUrlsRepository implements UrlsRepository {
   async delete(id: string): Promise<void> {
     await prismaClient.url.delete({ where: { id } });
   }
+
+  async deleteExpiredUrls(): Promise<number> {
+    const { count } = await prismaClient.url.deleteMany({
+      where: { expiresAt: { lt: new Date() } },
+    });
+
+    return count;
+  }
 }
 
 export const prismaUrlsRepository = new PrismaUrlsRepository();

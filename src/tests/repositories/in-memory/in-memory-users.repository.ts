@@ -2,7 +2,7 @@ import { UsersRepository } from '@app/repositories/users.repository';
 import { User } from 'src/app/entities/user';
 
 export class InMemoryUsersRepository implements UsersRepository {
-  private items: User[] = [];
+  public items: User[] = [];
 
   async findById(id: string): Promise<User | null> {
     const item = this.items.find((item) => item.id === id);
