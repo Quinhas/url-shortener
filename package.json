@@ -1,15 +1,27 @@
 {
   "name": "url-shortener",
+  "displayName": "Url Shortener",
+  "description": "A url shortener application developed for academic work",
   "version": "1.0.0",
-  "main": "index.js",
-  "author": "Lucas Santana",
   "license": "MIT",
+  "main": "dist/app.js",
+  "author": "Lucas Santana",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Quinhas/url-shortener.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Quinhas/url-shortener/issues"
+  },
   "scripts": {
-    "build": "tsup src/",
-    "dev": "tsx watch src/app.ts",
     "prepare": "husky install",
+    "dev": "tsx watch src/app.ts",
+    "build": "tsup src/",
+    "start": "node dist/app.js",
+    "test": "vitest",
     "commit": "git-cz",
-    "test": "vitest"
+    "lint": "eslint src",
+    "format": "prettier src"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.4.3",
